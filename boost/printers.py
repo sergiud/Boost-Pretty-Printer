@@ -199,6 +199,24 @@ def _conditionally_register_printer(condition):
 ### - '__init__' : Its only argument is a GDB_Value_Wrapper.
 ###
 
+
+@_register_printer
+class BoostFilesystemPath:
+    "Pretty Printer for boost::filesystem::path (Boost.Filesystem)"
+    printer_name = 'boost::filesystem::path'
+    version = '1.40'
+    type_name_re = '^boost::filesystem::path$'
+
+    def __init__(self, value):
+        self.typename = value.type_name
+        self.value = value
+
+    def to_string(self):
+        return '%s' % (self.value['m_pathname'])
+
+    def display_hint(self):
+        return 'path'
+
 @_register_printer
 class BoostIteratorRange:
     "Pretty Printer for boost::iterator_range (Boost.Range)"
